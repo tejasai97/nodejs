@@ -1,18 +1,10 @@
-var fs = require('fs');
+var http =require('http');
 
-//synchronous
-//creating
-fs.mkdirSync('stuff');
-//deleting
-fs.rmdirSync('stuff');
+var server = http.createServer(function(req,res){
+  console.log('request was made:' +req.url);
+  res.writeHead(200,{'Content-Type': 'text/plain'});
+  res.end('Hello World!');
+});
 
-//asyncronous
-fs.mkdir('stuff',function(){
-  fs.readFile('readme.txt','utf8',function(err,data){
-    fs.writeFile('./stuff/writeme.txt',data);
-  });
-});
-//deletion-we cannot delete non-empty directories
-fs.unlink('./stuff/writeme.txt',function(){
-  fs.rmdir('stuff');
-});
+server.listen(3000, '127.0.0.1');
+console.log('now listening to port 3000');
