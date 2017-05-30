@@ -1,23 +1,10 @@
-var events =require('events');
-var util=require('util');
+var fs = require('fs');
 
-var Person = function(name){
-  this.name=name;
-};
+//syncronous
+var readme = fs.readFileSync('readme.txt','utf8');
+fs.writeFileSync('writeme.txt',readme);
 
-util.inherits(Person,events.EventEmitter);
-
-var teja= new Person('teja');
-var mary= new Person('mary');
-var sai= new Person('sai');
-var people=[teja,mary,sai];
-
-people.forEach(function(person){
-  person.on('speak',function(msg){
-    console.log(person.name + ' said: '+ msg);
-  });
+//asyncronous -continue lines below without blocking
+fs.readFile('readme.txt','utf8',function(err,data){
+  fs.writeFile('writeme.txt',data);
 });
-
-teja.emit('speak','hello');
-mary.emit('speak','Im mary');
-sai.emit('speak','ola!');
